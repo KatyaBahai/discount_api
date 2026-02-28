@@ -7,7 +7,6 @@ import java.math.BigDecimal;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
-
 @Entity
 @Table(name = "products")
 @Getter

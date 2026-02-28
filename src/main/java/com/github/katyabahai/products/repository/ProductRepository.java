@@ -1,4 +1,4 @@
-package com.github.katyabahai.products.repository.url;
+package com.github.katyabahai.products.repository;
 
 import com.github.katyabahai.products.dto.BasicProductDto;
 import com.github.katyabahai.products.model.Category;

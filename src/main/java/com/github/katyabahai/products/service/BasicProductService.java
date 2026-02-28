@@ -7,7 +7,7 @@ import com.github.katyabahai.products.exception.ProductNotFoundException;
 import com.github.katyabahai.products.mapper.ProductMapper;
 import com.github.katyabahai.products.model.Category;
 import com.github.katyabahai.products.model.Product;
-import com.github.katyabahai.products.repository.url.ProductRepository;
+import com.github.katyabahai.products.repository.ProductRepository;
 import com.github.katyabahai.products.service.util.CalculateDiscountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

@@ -30,8 +30,8 @@ public class ProductController implements ProductControllerApi {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
         Pageable pageable = PageRequest.of(page, size);
-        Page<DiscountedProductDto> Productspage = productService.findAllDtos(category, pageable);
-        return ResponseEntity.ok(Productspage);
+        Page<DiscountedProductDto> productsPage = productService.findAllDtos(category, pageable);
+        return ResponseEntity.ok(productsPage);
     }
 
     @GetMapping("/{id}")
