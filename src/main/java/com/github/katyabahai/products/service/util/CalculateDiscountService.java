@@ -14,20 +14,7 @@ import java.math.BigDecimal;
 public class CalculateDiscountService {
     private final DiscountConfig discountConfig;
 
-    public DiscountedProductDto calculateDiscountedPrice(BasicProductDto basic) {
-        return DiscountedProductDto.builder()
-                .id(basic.getId())
-                .name(basic.getName())
-                .description(basic.getDescription())
-                .category(basic.getCategory())
-                .originalPrice(basic.getPrice())
-                .discountedPrice(calculateDiscount(basic))
-                .createdAt(basic.getCreatedAt())
-                .updatedAt(basic.getUpdatedAt())
-                .build();
-    }
-
-    private BigDecimal calculateDiscount(BasicProductDto basic) {
+    public BigDecimal calculateDiscount(BasicProductDto basic) {
         return basic.getPrice().multiply(getDiscountMultiplier(basic.getCategory()));
     }
 

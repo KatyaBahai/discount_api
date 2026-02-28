@@ -19,26 +19,25 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class BasicProductService implements ProductService {
     private final ProductRepository productRepository;
-    private final CalculateDiscountService calculateDiscountService;
     private final ProductMapper productMapper;
 
     @Transactional
     public Page<DiscountedProductDto> findAllDtos(Category category, Pageable pageable) {
         Page<BasicProductDto> productDtosPage = productRepository.findAllDtos(category, pageable);
-        return productDtosPage.map(calculateDiscountService::calculateDiscountedPrice);
+        return productDtosPage.map(productMapper::basicToDiscounted);
     }
 
     public DiscountedProductDto getProductById(Long id) {
         BasicProductDto basic = productRepository.findDtoById(id)
                 .orElseThrow(() -> new ProductNotFoundException(id));
-        return calculateDiscountService.calculateDiscountedPrice(basic);
+        return productMapper.basicToDiscounted(basic);
     }
 
     public DiscountedProductDto createProduct(CreateProductDto createDto) {
         Product product = productMapper.toEntity(createDto);
         Product savedProduct = productRepository.save(product);
         BasicProductDto basic = productMapper.toBasicDto(savedProduct);
-        return calculateDiscountService.calculateDiscountedPrice(basic);
+        return productMapper.basicToDiscounted(basic);
     }
 
     public DiscountedProductDto updateProduct(Long id, CreateProductDto updateDto) {
@@ -49,7 +48,7 @@ public class BasicProductService implements ProductService {
         Product savedProduct = productRepository.save(product);
 
         BasicProductDto basic = productMapper.toBasicDto(savedProduct);
-        return calculateDiscountService.calculateDiscountedPrice(basic);
+        return productMapper.basicToDiscounted(basic);
     }
 
     public void deleteProduct(Long id) {
