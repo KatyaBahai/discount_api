@@ -30,7 +30,7 @@ public class ProductMapper {
                 product.getName(),
                 product.getDescription(),
                 product.getPrice(),
-                product.getCategory().name(),
+                product.getCategory(),
                 product.getCreatedAt(),
                 product.getUpdatedAt()
         );

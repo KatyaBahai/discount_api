@@ -1,5 +1,6 @@
 package com.github.katyabahai.products.dto;
 
+import com.github.katyabahai.products.model.Category;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -15,7 +16,7 @@ public class DiscountedProductDto {
     private String description;
     private BigDecimal originalPrice;
     private BigDecimal discountedPrice;
-    private String category;
+    private Category category;
     private ZonedDateTime createdAt;
     private ZonedDateTime updatedAt;
 }

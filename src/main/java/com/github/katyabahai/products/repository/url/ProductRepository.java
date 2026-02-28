@@ -14,14 +14,14 @@ import java.util.Optional;
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
     @Query("""
-            SELECT new BasicProductDto
+            SELECT new com.github.katyabahai.products.dto.BasicProductDto
             (p.id, p.name, p.description, p.price, p.category, p.createdAt, p.updatedAt)
             FROM Product p WHERE (p.id = :id)
             """)
     Optional<BasicProductDto> findDtoById(@Param("id") Long id);
 
     @Query("""
-            SELECT new BasicProductDto
+            SELECT new com.github.katyabahai.products.dto.BasicProductDto
             (p.id, p.name, p.description, p.price, p.category, p.createdAt, p.updatedAt)
             FROM Product p WHERE (:category IS NULL OR p.category = :category)
             """)

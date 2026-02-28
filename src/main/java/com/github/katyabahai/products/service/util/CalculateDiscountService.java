@@ -28,8 +28,7 @@ public class CalculateDiscountService {
     }
 
     private BigDecimal calculateDiscount(BasicProductDto basic) {
-        Category category = Category.valueOf(basic.getCategory());
-        return basic.getPrice().multiply(getDiscountMultiplier(category));
+        return basic.getPrice().multiply(getDiscountMultiplier(basic.getCategory()));
     }
 
     private BigDecimal getDiscountMultiplier(Category category) {

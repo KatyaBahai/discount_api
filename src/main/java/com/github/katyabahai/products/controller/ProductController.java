@@ -1,11 +1,13 @@
 package com.github.katyabahai.products.controller;
 
+import com.github.katyabahai.products.controller.openapi.ProductControllerApi;
 import com.github.katyabahai.products.dto.CreateProductDto;
 import com.github.katyabahai.products.dto.DiscountedProductDto;
 import com.github.katyabahai.products.model.Category;
 import com.github.katyabahai.products.service.BasicProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
@@ -19,13 +21,15 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/products")
-public class ProductController {
+public class ProductController implements ProductControllerApi {
     private final BasicProductService productService;
 
     @GetMapping
     public ResponseEntity<Page<DiscountedProductDto>> getProducts(
             @RequestParam(required = false) Category category,
-            @PageableDefault(page = 0, size = 10) Pageable pageable) {
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        Pageable pageable = PageRequest.of(page, size);
         Page<DiscountedProductDto> Productspage = productService.findAllDtos(category, pageable);
         return ResponseEntity.ok(Productspage);
     }
