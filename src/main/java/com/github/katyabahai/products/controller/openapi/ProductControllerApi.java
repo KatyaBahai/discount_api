@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 
@@ -79,7 +80,11 @@ public interface ProductControllerApi {
 
     @Operation(
             summary = "Создать новый продукт",
-            description = "Создает новый продукт. Поле description опционально. Цена должна не может быть < 0."
+            description = """
+    Создает новый продукт.
+    Поле description опционально.
+    Цена должна не может быть < 0.
+    Категорию можно выбрать из BOOKS, FOOD, ELECTRONICS, OTHER."""
     )
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201",
@@ -101,7 +106,7 @@ public interface ProductControllerApi {
             @ApiResponse(responseCode = "400",
                     description = "Неверные данные: name пустой, price < 0, неверная категория")
     })
-    ResponseEntity<DiscountedProductDto> createProduct(CreateProductDto dto);
+    ResponseEntity<DiscountedProductDto> createProduct(@Valid CreateProductDto dto);
 
     @Operation(
             summary = "Обновить существующий продукт",
@@ -129,7 +134,7 @@ public interface ProductControllerApi {
             @ApiResponse(responseCode = "404",
                     description = "Продукт с указанным ID не найден")
     })
-    ResponseEntity<DiscountedProductDto> updateProduct(Long id, CreateProductDto dto);
+    ResponseEntity<DiscountedProductDto> updateProduct(Long id, @Valid CreateProductDto dto);
 
     @Operation(
             summary = "Удалить продукт по ID",
