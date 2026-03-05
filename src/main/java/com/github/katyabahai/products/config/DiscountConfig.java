@@ -5,7 +5,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 @ConfigurationProperties(prefix = "app.discount")
-@Component
 @Data
 public class DiscountConfig {
     private double books;

@@ -4,14 +4,13 @@ import com.github.katyabahai.products.controller.openapi.ProductControllerApi;
 import com.github.katyabahai.products.dto.CreateProductDto;
 import com.github.katyabahai.products.dto.DiscountedProductDto;
 import com.github.katyabahai.products.model.Category;
-import com.github.katyabahai.products.service.BasicProductService;
+import com.github.katyabahai.products.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,7 +21,7 @@ import jakarta.validation.Valid;
 @RestController
 @RequestMapping("/products")
 public class ProductController implements ProductControllerApi {
-    private final BasicProductService productService;
+    private final ProductService productService;
 
     @GetMapping
     public ResponseEntity<Page<DiscountedProductDto>> getProducts(

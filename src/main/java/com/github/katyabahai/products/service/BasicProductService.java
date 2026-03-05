@@ -8,7 +8,6 @@ import com.github.katyabahai.products.mapper.ProductMapper;
 import com.github.katyabahai.products.model.Category;
 import com.github.katyabahai.products.model.Product;
 import com.github.katyabahai.products.repository.ProductRepository;
-import com.github.katyabahai.products.service.util.CalculateDiscountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,18 +20,20 @@ public class BasicProductService implements ProductService {
     private final ProductRepository productRepository;
     private final ProductMapper productMapper;
 
-    @Transactional
+    @Transactional(readOnly = true)
     public Page<DiscountedProductDto> findAllDtos(Category category, Pageable pageable) {
         Page<BasicProductDto> productDtosPage = productRepository.findAllDtos(category, pageable);
         return productDtosPage.map(productMapper::basicToDiscounted);
     }
 
+    @Transactional(readOnly = true)
     public DiscountedProductDto getProductById(Long id) {
         BasicProductDto basic = productRepository.findDtoById(id)
                 .orElseThrow(() -> new ProductNotFoundException(id));
         return productMapper.basicToDiscounted(basic);
     }
 
+    @Transactional
     public DiscountedProductDto createProduct(CreateProductDto createDto) {
         Product product = productMapper.toEntity(createDto);
         Product savedProduct = productRepository.save(product);
@@ -40,6 +41,7 @@ public class BasicProductService implements ProductService {
         return productMapper.basicToDiscounted(basic);
     }
 
+    @Transactional
     public DiscountedProductDto updateProduct(Long id, CreateProductDto updateDto) {
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new ProductNotFoundException(id));
@@ -51,6 +53,7 @@ public class BasicProductService implements ProductService {
         return productMapper.basicToDiscounted(basic);
     }
 
+    @Transactional
     public void deleteProduct(Long id) {
         if (!productRepository.existsById(id)) {
             throw new ProductNotFoundException(id);
