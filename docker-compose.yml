@@ -1,0 +1,39 @@
+services:
+  db:
+    image: postgres:16
+    container_name: db
+    environment:
+      POSTGRES_DB: discount_api
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      PGDATA: /var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data_new:/var/lib/postgresql/data
+    networks:
+      - discount_api_default
+
+
+  discount_api:
+    build: .
+    image: katyabahai/discount_api:v.1.0.1
+    container_name: discount_api
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/discount_api
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: password
+    ports:
+      - "8080:8080"
+    networks:
+      - discount_api_default
+    depends_on:
+      - db
+
+
+networks:
+  discount_api_default:
+
+volumes:
+  db_data_new:
+
