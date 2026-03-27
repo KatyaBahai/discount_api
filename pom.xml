@@ -10,9 +10,9 @@
 	</parent>
 	<groupId>com.github.katyabahai</groupId>
 	<artifactId>discount_api</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<name>discount_api</name>
-	<description>Test assignment</description>
+	<description>discount calculator and product list api</description>
 	<url/>
 	<licenses>
 		<license/>
