@@ -1,2 +1,2 @@
 #!/bin/sh
-java -jar /app/app.jar --spring.profiles.active=docker
+java -jar /app/app.jar

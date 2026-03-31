@@ -14,21 +14,33 @@ services:
     networks:
       - discount_api_default
 
+  redis:
+    image: redis:7.0-alpine
+    container_name: redis
+    ports:
+      - "6379:6379"
+    networks:
+      - discount_api_default
 
   discount_api:
     build: .
     image: katyabahai/discount_api:v.1.0.1
     container_name: discount_api
     environment:
+      SPRING_PROFILES_ACTIVE: docker
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/discount_api
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: password
+      SPRING_CACHE_TYPE: redis
+      SPRING_REDIS_HOST: redis
+      SPRING_REDIS_PORT: 6379
     ports:
       - "8080:8080"
     networks:
       - discount_api_default
     depends_on:
       - db
+      - redis
 
 
 networks:

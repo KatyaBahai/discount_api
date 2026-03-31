@@ -62,6 +62,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleGenericException(Exception ex) {
+        logger.error("Full exception:", ex);
         logger.error(ex.getMessage());
         ErrorResponse errorResponse = ErrorResponse.builder()
                 .message(ex.getMessage())

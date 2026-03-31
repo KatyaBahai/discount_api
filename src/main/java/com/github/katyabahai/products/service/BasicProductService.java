@@ -9,6 +9,8 @@ import com.github.katyabahai.products.model.Category;
 import com.github.katyabahai.products.model.Product;
 import com.github.katyabahai.products.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -27,7 +29,9 @@ public class BasicProductService implements ProductService {
     }
 
     @Transactional(readOnly = true)
+    @Cacheable(value = "products", key = "#id")
     public DiscountedProductDto getProductById(Long id) {
+        simulateSlowService();
         BasicProductDto basic = productRepository.findDtoById(id)
                 .orElseThrow(() -> new ProductNotFoundException(id));
         return productMapper.basicToDiscounted(basic);
@@ -42,6 +46,7 @@ public class BasicProductService implements ProductService {
     }
 
     @Transactional
+    @CacheEvict(value = "products", key = "#id")
     public DiscountedProductDto updateProduct(Long id, CreateProductDto updateDto) {
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new ProductNotFoundException(id));
@@ -54,10 +59,19 @@ public class BasicProductService implements ProductService {
     }
 
     @Transactional
+    @CacheEvict(value = "products", key = "#id")
     public void deleteProduct(Long id) {
         if (!productRepository.existsById(id)) {
             throw new ProductNotFoundException(id);
         }
         productRepository.deleteById(id);
+    }
+
+    private void simulateSlowService() {
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            throw new IllegalStateException(e);
+        }
     }
 }
