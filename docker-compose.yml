@@ -22,6 +22,18 @@ services:
     networks:
       - discount_api_default
 
+  mongodb:
+    image: mongo:7
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_DATABASE: discount_api
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - discount_api_default
+
   discount_api:
     build: .
     image: katyabahai/discount_api:v.1.0.1
@@ -31,6 +43,7 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/discount_api
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: password
+      SPRING_DATA_MONGODB_URI: mongodb://mongodb:27017/discount_api
       SPRING_CACHE_TYPE: redis
       SPRING_REDIS_HOST: redis
       SPRING_REDIS_PORT: 6379
@@ -41,11 +54,14 @@ services:
     depends_on:
       - db
       - redis
+      - mongodb
 
 
 networks:
   discount_api_default:
+    driver: bridge
 
 volumes:
   db_data_new:
+  mongo_data:
 
